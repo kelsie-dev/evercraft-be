@@ -58,4 +58,41 @@ class EvercraftApplicationTests {
 		//then the alignment attribute will be either good, evil, or neutral
 		Assertions.assertEquals(expectedAlignment, newCharacter.getAlignment());
 	}
+
+	@Test
+	void a_character_has_a_default_armor_class() {
+		//given a new character
+		//when the character is instantiated
+		int expectedArmorClass = 10;
+		int expectedHitPoints = 5;
+		//then the character is given a default armor class of 10 and default hit points of 5
+		Assertions.assertEquals(expectedArmorClass, newCharacter.getArmorClass());
+		Assertions.assertEquals(expectedHitPoints, newCharacter.getHitPoints());
+	}
+
+	@Test
+	void a_d20_roll_returns_a_value_between_1_and_20() {
+		//given a character enters combat
+		//when the character rolls a d20 for an attack
+		//then the die roll will return a number between 1 and 20
+		int expectedValidValue = 4;
+		int expectedInvalidValue = 21;
+
+		Assertions.assertEquals(expectedValidValue, newCharacter.roll(expectedValidValue));
+		Assertions.assertEquals(-1, newCharacter.roll(expectedInvalidValue));
+	}
+
+	@Test
+	void roll_meets_or_beats_armor_class_of_opponent_to_hit() {
+		//given a character is in combat
+		//when the roll is made for the attack
+		//and the roll is greater than or equal to the opponent's hit points
+		//then the action is successful
+		CharacterSheet targetCharacter = new CharacterSheet("Kefka", "Evil");
+		TargetAction attack = new TargetAction(newCharacter, targetCharacter);
+		int dieRoll = newCharacter.roll(10);
+
+		Assertions.assertTrue(attack.isSuccessful(dieRoll));
+	}
+
 }
