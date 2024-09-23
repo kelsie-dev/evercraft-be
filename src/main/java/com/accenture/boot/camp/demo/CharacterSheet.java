@@ -11,6 +11,7 @@ public class CharacterSheet {
     protected String alignment;
     protected int armorClass;
     protected int hitPoints;
+    protected boolean alive;
 
     public CharacterSheet(
             String name,
@@ -20,6 +21,18 @@ public class CharacterSheet {
         setAlignment(alignment);
         setArmorClass(10);
         setHitPoints(5);
+        setAlive(true);
+    }
+
+    public void takeDamage(int damage) {
+        setHitPoints(hitPoints - damage);
+        if (hitPoints <=0) {
+            setAlive(false);
+        }
+    }
+
+    boolean getAlive() {
+        return this.alive;
     }
 
     public int roll(int dieNumber) {
